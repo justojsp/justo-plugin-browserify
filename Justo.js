@@ -21,6 +21,7 @@ register({name: "build", desc: "Build the package."}, function() {
     ]
   });
 
+
   babel("Transpile", {
     comments: false,
     retainLines: true,
@@ -28,6 +29,10 @@ register({name: "build", desc: "Build the package."}, function() {
       "build/es5/lib/index.js": "lib/index.js",
       "build/es5/lib/browserify.js": "lib/browserify.js"
     }
+  });
+
+  clean("Clean dist directory", {
+    dirs: ["build/dist"]
   });
 
   copy(
@@ -46,7 +51,8 @@ register({name: "build", desc: "Build the package."}, function() {
 register({name: "test", desc: "Unit test."}, {
   require: "justo-assert",
   src: [
-    "test/unit/lib/browserify.js"
+    "test/unit/lib/browserify.js",
+    "test/unit/lib/index.js"
   ]
 });
 
