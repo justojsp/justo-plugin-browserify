@@ -3,8 +3,8 @@ const register = require("justo").register;
 const simple = require("justo").simple;
 const fs = require("justo-fs");
 const babel = require("justo-plugin-babel");
-const clean = require("justo-plugin-clean");
-const copy = require("justo-plugin-copy");
+const clean = require("justo-plugin-fs").clean;
+const copy = require("justo-plugin-fs").copy;
 const jshint = require("justo-plugin-jshint");
 
 //works
