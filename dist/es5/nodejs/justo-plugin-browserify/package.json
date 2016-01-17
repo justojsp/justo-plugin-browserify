@@ -41,7 +41,8 @@
     "justo-fs": "*",
     "justo-plugin-babel": "*",
     "justo-plugin-fs": "*",
-    "justo-plugin-jshint": "*"
+    "justo-plugin-jshint": "*",
+    "justo-plugin-npm": "*"
   },
   "preferGlobal": false,
   "main": "lib/index.js",

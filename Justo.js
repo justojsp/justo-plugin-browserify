@@ -1,31 +1,26 @@
 //imports
 const register = require("justo").register;
-const simple = require("justo").simple;
-const fs = require("justo-fs");
 const babel = require("justo-plugin-babel");
 const clean = require("justo-plugin-fs").clean;
 const copy = require("justo-plugin-fs").copy;
 const jshint = require("justo-plugin-jshint");
+const publish = require("justo-plugin-npm").publish;
 
 //works
 register({name: "build", desc: "Build the package."}, function() {
+  jshint("Best practices", {
+    output: true,
+    src: "lib/"
+  });
+
   clean("Clean build directory", {
     dirs: ["build/es5"]
   });
 
-  jshint("Best practices", {
-    output: true,
-    files: [
-      "lib/browserify.js",
-      "lib/index.js"
-    ]
-  });
-
-
   babel("Transpile", {
     comments: false,
     retainLines: true,
-    files: {
+    src: {
       "build/es5/lib/index.js": "lib/index.js",
       "build/es5/lib/browserify.js": "lib/browserify.js"
     }
@@ -50,10 +45,14 @@ register({name: "build", desc: "Build the package."}, function() {
 
 register({name: "test", desc: "Unit test."}, {
   require: "justo-assert",
-  src: [
-    "test/unit/lib/browserify.js",
-    "test/unit/lib/index.js"
-  ]
+  src: "test/unit/lib/"
+});
+
+register({name: "publish", desc: "NPM publish"}, function() {
+  publish("Publish", {
+    who: "justojs",
+    src: "dist/es5/nodejs/justo-plugin-browserify/"
+  });
 });
 
 register("default", ["build", "test"]);

@@ -33,11 +33,11 @@ suite("#browserify()", function() {
     file(BUNDLE.path).must.contain(["var x = 1;", "var y = 2;"]);
   });
 
-  test("mocha(config) - No source file indicated", function() {
+  test("browserify(config) - No source file indicated", function() {
     browserify.must.raise("No source file indicated.", [{}]);
   });
 
-  test("mocha(config) - No bundle indicated", function() {
+  test("browserify(config) - No bundle indicated", function() {
     browserify.must.raise("No bundle file indicated.", [{src: "one.js"}]);
   });
 })();
