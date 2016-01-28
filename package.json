@@ -1,6 +1,6 @@
 {
   "name": "justo-plugin-browserify",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Simple task to run browserify.",
   "homepage": "http://www.justojs.org",
   "author": {
@@ -45,10 +45,9 @@
     "justo-plugin-npm": "*"
   },
   "preferGlobal": false,
-  "main": "lib/index.js",
+  "main": "index.js",
   "files": [
-    "lib",
-    "test"
+    "lib"
   ],
   "scripts": {
     "test": "justo test"

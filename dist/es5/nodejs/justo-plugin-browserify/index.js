@@ -2,4 +2,4 @@
 "justo");exports["default"] = 
 
 
-(0, _justo.simple)({ ns: "org.justojs", name: "browserify" }, require("./browserify"));module.exports = exports["default"];
+(0, _justo.simple)({ ns: "org.justojs.plugin", name: "browserify" }, require("./lib/op"));module.exports = exports["default"];
