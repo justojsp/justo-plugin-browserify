@@ -7,7 +7,7 @@ const fin = require("justo").fin;
 const Dir = require("justo-fs").Dir;
 const File = require("justo-fs").File;
 const file = require("justo-assert-fs").file;
-const browserify = require("../../../dist/es5/nodejs/justo-plugin-browserify/lib/op");
+const browserify = require("../../../dist/es5/nodejs/justo-plugin-browserify/lib/op").default;
 
 //suite
 suite("#browserify()", function() {

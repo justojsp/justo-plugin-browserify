@@ -20,10 +20,11 @@ catalog.workflow({name: "build", desc: "Build the package."}, function() {
   babel("Transpile", {
     comments: false,
     retainLines: true,
-    src: {
-      "build/es5/index.js": "index.js",
-      "build/es5/lib/op.js": "lib/op.js"
-    }
+    preset: "es2015",
+    files: [
+      {src: "index.js", dst: "build/es5/"},
+      {src: "lib/", dst: "build/es5/lib/"}
+    ]
   });
 
   clean("Clean dist directory", {
