@@ -1,7 +1,7 @@
 {
   "name": "justo-plugin-browserify",
-  "version": "0.1.3",
-  "description": "Simple task to run browserify.",
+  "version": "0.2.0",
+  "description": "Plugin for running Browserify.",
   "homepage": "http://www.justojs.org",
   "author": {
     "name": "Justo Labs",
@@ -18,7 +18,8 @@
   "keywords": [
     "Justo",
     "Justo.js",
-    "justo-plugin"
+    "justo-plugin",
+    "Browserify"
   ],
   "bugs": {
     "url": "https://github.com/justojsp/justo-plugin-browserify/issues",
@@ -32,13 +33,15 @@
     "node": ">=4.0.0",
     "npm": ">=3.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "browserify": "*",
+    "justo-fs": "*"
+  },
   "peerDependencies": {},
   "devDependencies": {
     "justo": "*",
     "justo-assert": "*",
     "justo-assert-fs": "*",
-    "justo-fs": "*",
     "justo-plugin-babel": "*",
     "justo-plugin-fs": "*",
     "justo-plugin-jshint": "*",

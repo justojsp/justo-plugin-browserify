@@ -1,9 +1,11 @@
 
 //imports
 const path = require("path");
-const suite = require("justo").suite;
-const test = require("justo").test;
-const fin = require("justo").fin;
+const justo = require("justo");
+const init = justo.init;
+const fin = justo.fin;
+const suite = justo.suite;
+const test = justo.test;
 const Dir = require("justo-fs").Dir;
 const File = require("justo-fs").File;
 const file = require("justo-assert-fs").file;
@@ -11,33 +13,115 @@ const browserify = require("../../../dist/es5/nodejs/justo-plugin-browserify/lib
 
 //suite
 suite("#browserify()", function() {
-  const DATA_DIR = "test/unit/data";
-  const BUNDLE = new File(Dir.TMP_DIR, "bundle.js");
+  const DATA = "test/unit/data";
+  var BUNDLE_DIR, BUNDLE;
 
-  fin(function() {
-    BUNDLE.remove();
+  init("*", function() {
+    BUNDLE_DIR = Dir.createTmpDir();
+    BUNDLE = path.join(BUNDLE_DIR.path, "mytest.js");
   });
 
-  test("browserify()", function() {
-    browserify.must.raise("Expected config object.");
+  fin("*", function() {
+    BUNDLE_DIR.remove();
   });
 
-  test("browserify(config)", function() {
-    browserify({
-      src: [path.join(DATA_DIR, "one.js"), path.join(DATA_DIR, "two.js")],
-      dst: BUNDLE.path,
-      output: true
-    }).must.be.eq(0);
-
-    file(BUNDLE.path).must.exist();
-    file(BUNDLE.path).must.contain(["var x = 1;", "var y = 2;"]);
+  test("browserify()", function(done) {
+    browserify([], function(err) {
+      if (err) done();
+      else done("An error must be indicated.");
+    });
   });
 
-  test("browserify(config) - No source file indicated", function() {
-    browserify.must.raise("No source file indicated.", [{}]);
+  test("browserify(config) - No source file indicated", function(done) {
+    browserify([{src: []}], function(err) {
+      if (err) done();
+      else done("An error must be indicated.");
+    });
   });
 
-  test("browserify(config) - No bundle indicated", function() {
-    browserify.must.raise("No bundle file indicated.", [{src: "one.js"}]);
+  test("browserify(config) - No bundle indicated", function(done) {
+    browserify([{src: "one.js"}], function(err) {
+      if (err) done();
+      else done("An error must be indicated.");
+    });
+  });
+
+  test("browserify(config)", function(done) {
+    browserify([{
+      src: [path.join(DATA, "one.js"), path.join(DATA, "two.js")],
+      dst: BUNDLE
+    }], function(err) {
+      if (err) {
+        done(err);
+      } else {
+        file(BUNDLE).must.exist();
+        file(BUNDLE).must.contain(["var x = 1;", "var y = 2;"]);
+        done();
+      }
+    });
+  });
+
+  test("browserify(config) - globals must be inserted", function(done) {
+    browserify([{
+      src: path.join(DATA, "globals.js"),
+      dst: BUNDLE,
+      globals: true
+    }], function(err) {
+      if (err) {
+        done(err);
+      } else {
+        file(BUNDLE).must.exist();
+        file(BUNDLE).must.contain("function (__filename)");
+        done();
+      }
+    });
+  });
+
+  test("browserify(config) - globals must not be inserted", function(done) {
+    browserify([{
+      src: path.join(DATA, "globals.js"),
+      dst: BUNDLE,
+      globals: false
+    }], function(err) {
+      if (err) {
+        done(err);
+      } else {
+        file(BUNDLE).must.exist();
+        file(BUNDLE).must.not.contain("function (__filename)");
+        done();
+      }
+    });
+  });
+
+  test("browserify(config) - globals must be inserted if needed and needed", function(done) {
+    browserify([{
+      src: path.join(DATA, "globals.js"),
+      dst: BUNDLE,
+      globals: true
+    }], function(err) {
+      if (err) {
+        done(err);
+      } else {
+        file(BUNDLE).must.exist();
+        file(BUNDLE).must.contain("function (__filename)");
+        done();
+      }
+    });
+  });
+
+  test("browserify(config) - globals must be inserted if needed but not needed", function(done) {
+    browserify([{
+      src: path.join(DATA, "one.js"),
+      dst: BUNDLE,
+      globals: true
+    }], function(err) {
+      if (err) {
+        done(err);
+      } else {
+        file(BUNDLE).must.exist();
+        file(BUNDLE).must.not.contain("function (__filename)");
+        done();
+      }
+    });
   });
 })();
