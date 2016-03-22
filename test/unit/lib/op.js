@@ -124,4 +124,52 @@ suite("#browserify()", function() {
       }
     });
   });
+
+  test("browserify(config) - builtins to false", function(done) {
+    browserify([{
+      src: path.join(DATA, "builtins.js"),
+      dst: BUNDLE,
+      builtins: false
+    }], function(err) {
+      if (err) {
+        done(err);
+      } else {
+        file(BUNDLE).must.exist();
+        file(BUNDLE).text.length.must.be.lt(1000);
+        done();
+      }
+    });
+  });
+
+  test("browserify(config) - builtins to true", function(done) {
+    browserify([{
+      src: path.join(DATA, "builtins.js"),
+      dst: BUNDLE,
+      builtins: true
+    }], function(err) {
+      if (err) {
+        done(err);
+      } else {
+        file(BUNDLE).must.exist();
+        file(BUNDLE).text.length.must.be.gt(1000);
+        done();
+      }
+    });
+  });
+
+  test("browserify(config) - builtins to specified modules", function(done) {
+    browserify([{
+      src: path.join(DATA, "builtins.js"),
+      dst: BUNDLE,
+      builtins: ["http"]
+    }], function(err) {
+      if (err) {
+        done(err);
+      } else {
+        file(BUNDLE).must.exist();
+        file(BUNDLE).text.length.must.be.lt(1000);
+        done();
+      }
+    });
+  });
 })();
