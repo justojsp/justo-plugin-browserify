@@ -1,6 +1,6 @@
 {
   "name": "justo-plugin-browserify",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Plugin for running Browserify.",
   "homepage": "http://www.justojs.org",
   "author": {

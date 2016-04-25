@@ -43,6 +43,7 @@ op;var _browserify = require("browserify");var _browserify2 = _interopRequireDef
 
 
 
+
   b = (0, _browserify2.default)([], { 
     require: params.require, 
     basedir: params.base, 
@@ -54,7 +55,7 @@ op;var _browserify = require("browserify");var _browserify2 = _interopRequireDef
     standalone: params.standalone, 
     builtins: params.builtins, 
     insertGlobals: params.hasOwnProperty("globals") ? params.globals == "insert" : false, 
-    detectGlobals: params.hasOwnProperty("globals") ? params.globals === true : false });
+    detectGlobals: params.hasOwnProperty("globals") ? params.globals == "insert" || !!params.globals : false });
 
 
   if (params.transform) {var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {

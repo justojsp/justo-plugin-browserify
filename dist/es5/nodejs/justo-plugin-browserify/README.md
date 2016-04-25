@@ -38,9 +38,9 @@ Configuration object:
 - `debug` (boolean). Enable source maps that allow you to debug your files separately.
 - `builtins` (string or string[] or boolean). The built-in module names to define. If `true`, all. If `false`, none.
 - `globals`. This can have one of those values:
-  - `true` (as boolean), then this scans all files for process, `global`, `__filename`, and `__dirname`, defining as necessary.
+  - `true` (as boolean), then this scans all files for process, `process`, `global`, `__filename`, and `__dirname`, defining as necessary.
   - `false` (as boolean), this doesn't scan.
-  - `insert` (as string), this always inserts process, `global`, `__filename`, and `__dirname` without analyzing the AST for faster builds but larger output bundles.
+  - `insert` (as string), this always inserts process, `process`, `global`, `__filename`, and `__dirname` without analyzing the AST for faster builds but larger output bundles.
 
 To indicate a transform, we can use its name or an object:
 
