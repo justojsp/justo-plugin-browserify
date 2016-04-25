@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/justojsp/justo-plugin-browserify.svg)](https://travis-ci.org/justojsp/justo-plugin-browserify)
+[![Dependency Status](https://david-dm.org/justojsp/justo-plugin-browserify.svg)](https://david-dm.org/justojsp/justo-plugin-browserify)
+[![devDependency Status](https://david-dm.org/justojsp/justo-plugin-browserify/dev-status.svg)](https://david-dm.org/justojsp/justo-plugin-browserify#info=devDependencies)
 
 Plugin for running *Browserify*.
 
@@ -20,7 +22,7 @@ browserify(opts, config)
 
 Configuration object:
 
-- `src` (string or string[]). The entry file(s).
+- `src` (string or string[]). The entry file(s), relative to `base`.
 - `dst` (string). The bundle file.
 - `base` (string). The directory to start bundling from for filenames that start with `.`.
 - `path` (string or string[]). The directories to search when looking for modules which are not referenced using relative path.
@@ -59,7 +61,7 @@ Examples:
 const browserify = require("justo-plugin-browserify");
 
 browserify("Generate bundle", {
-  src: "app/app.js",
+  src: "app.js",
   base: "app/",
   dst: "build/es5/app.js"
 });

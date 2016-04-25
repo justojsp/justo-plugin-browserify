@@ -16,12 +16,12 @@ suite("#browserify()", function() {
   const DATA = "test/unit/data";
   var BUNDLE_DIR, BUNDLE;
 
-  init("*", function() {
+  init({name: "*", title: "Create tmp dir"}, function() {
     BUNDLE_DIR = Dir.createTmpDir();
     BUNDLE = path.join(BUNDLE_DIR.path, "mytest.js");
   });
 
-  fin("*", function() {
+  fin({name: "*", title: "Delete tmp dir"}, function() {
     BUNDLE_DIR.remove();
   });
 
@@ -61,115 +61,135 @@ suite("#browserify()", function() {
     });
   });
 
-  test("browserify(config) - globals must be inserted", function(done) {
+  test("browserify(config) - base", function(done) {
     browserify([{
-      src: path.join(DATA, "globals.js"),
+      src: "app.js",
       dst: BUNDLE,
-      globals: true
+      base: path.join(DATA, "app/")
     }], function(err) {
       if (err) {
         done(err);
       } else {
         file(BUNDLE).must.exist();
-        file(BUNDLE).must.contain("function (__filename)");
+        file(BUNDLE).must.contain("var x = 1;");
         done();
       }
     });
   });
 
-  test("browserify(config) - globals must not be inserted", function(done) {
-    browserify([{
-      src: path.join(DATA, "globals.js"),
-      dst: BUNDLE,
-      globals: false
-    }], function(err) {
-      if (err) {
-        done(err);
-      } else {
-        file(BUNDLE).must.exist();
-        file(BUNDLE).must.not.contain("function (__filename)");
-        done();
-      }
+  suite("Globals", function() {
+    test("browserify(config) - globals must be inserted", function(done) {
+      browserify([{
+        src: path.join(DATA, "globals.js"),
+        dst: BUNDLE,
+        globals: true
+      }], function(err) {
+        if (err) {
+          done(err);
+        } else {
+          file(BUNDLE).must.exist();
+          file(BUNDLE).must.contain("function (__filename)");
+          done();
+        }
+      });
+    });
+
+    test("browserify(config) - globals must not be inserted", function(done) {
+      browserify([{
+        src: path.join(DATA, "globals.js"),
+        dst: BUNDLE,
+        globals: false
+      }], function(err) {
+        if (err) {
+          done(err);
+        } else {
+          file(BUNDLE).must.exist();
+          file(BUNDLE).must.not.contain("function (__filename)");
+          done();
+        }
+      });
+    });
+
+    test("browserify(config) - globals must be inserted if needed and needed", function(done) {
+      browserify([{
+        src: path.join(DATA, "globals.js"),
+        dst: BUNDLE,
+        globals: true
+      }], function(err) {
+        if (err) {
+          done(err);
+        } else {
+          file(BUNDLE).must.exist();
+          file(BUNDLE).must.contain("function (__filename)");
+          done();
+        }
+      });
+    });
+
+    test("browserify(config) - globals must be inserted if needed but not needed", function(done) {
+      browserify([{
+        src: path.join(DATA, "one.js"),
+        dst: BUNDLE,
+        globals: true
+      }], function(err) {
+        if (err) {
+          done(err);
+        } else {
+          file(BUNDLE).must.exist();
+          file(BUNDLE).must.not.contain("function (__filename)");
+          done();
+        }
+      });
     });
   });
 
-  test("browserify(config) - globals must be inserted if needed and needed", function(done) {
-    browserify([{
-      src: path.join(DATA, "globals.js"),
-      dst: BUNDLE,
-      globals: true
-    }], function(err) {
-      if (err) {
-        done(err);
-      } else {
-        file(BUNDLE).must.exist();
-        file(BUNDLE).must.contain("function (__filename)");
-        done();
-      }
+  suite("Builtins", function() {
+    test("browserify(config) - builtins to false", function(done) {
+      browserify([{
+        src: path.join(DATA, "builtins.js"),
+        dst: BUNDLE,
+        builtins: false
+      }], function(err) {
+        if (err) {
+          done(err);
+        } else {
+          file(BUNDLE).must.exist();
+          file(BUNDLE).text.length.must.be.lt(1000);
+          done();
+        }
+      });
     });
-  });
 
-  test("browserify(config) - globals must be inserted if needed but not needed", function(done) {
-    browserify([{
-      src: path.join(DATA, "one.js"),
-      dst: BUNDLE,
-      globals: true
-    }], function(err) {
-      if (err) {
-        done(err);
-      } else {
-        file(BUNDLE).must.exist();
-        file(BUNDLE).must.not.contain("function (__filename)");
-        done();
-      }
+    test("browserify(config) - builtins to true", function(done) {
+      browserify([{
+        src: path.join(DATA, "builtins.js"),
+        dst: BUNDLE,
+        builtins: true
+      }], function(err) {
+        if (err) {
+          done(err);
+        } else {
+          file(BUNDLE).must.exist();
+          file(BUNDLE).text.length.must.be.gt(1000);
+          done();
+        }
+      });
     });
-  });
 
-  test("browserify(config) - builtins to false", function(done) {
-    browserify([{
-      src: path.join(DATA, "builtins.js"),
-      dst: BUNDLE,
-      builtins: false
-    }], function(err) {
-      if (err) {
-        done(err);
-      } else {
-        file(BUNDLE).must.exist();
-        file(BUNDLE).text.length.must.be.lt(1000);
-        done();
-      }
-    });
-  });
-
-  test("browserify(config) - builtins to true", function(done) {
-    browserify([{
-      src: path.join(DATA, "builtins.js"),
-      dst: BUNDLE,
-      builtins: true
-    }], function(err) {
-      if (err) {
-        done(err);
-      } else {
-        file(BUNDLE).must.exist();
-        file(BUNDLE).text.length.must.be.gt(1000);
-        done();
-      }
-    });
-  });
-
-  test("browserify(config) - builtins to specified modules", function(done) {
-    browserify([{
-      src: path.join(DATA, "builtins.js"),
-      dst: BUNDLE,
-      builtins: ["http"]
-    }], function(err) {
-      if (err) {
-        done(err);
-      } else {
-        file(BUNDLE).must.exist();
-        file(BUNDLE).text.length.must.be.lt(1000);
-        done();
-      }
+    test("browserify(config) - builtins to specified modules", function(done) {
+      browserify([{
+        src: path.join(DATA, "builtins.js"),
+        dst: BUNDLE,
+        builtins: ["http"]
+      }], function(err) {
+        if (err) {
+          done(err);
+        } else {
+          file(BUNDLE).must.exist();
+          file(BUNDLE).text.length.must.be.lt(1000);
+          done();
+        }
+      });
     });
   });
 })();

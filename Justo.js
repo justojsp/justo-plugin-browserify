@@ -8,13 +8,13 @@ const publish = require("justo-plugin-npm").publish;
 
 //works
 catalog.workflow({name: "build", desc: "Build the package."}, function() {
-  jshint("Best practices", {
-    output: true,
-    src: ["index.js", "lib/"]
-  });
-
   clean("Clean build directory", {
     dirs: ["build/es5"]
+  });
+
+  jshint("Best practices and grammar", {
+    output: true,
+    src: ["index.js", "lib/"]
   });
 
   babel("Transpile", {
@@ -23,7 +23,7 @@ catalog.workflow({name: "build", desc: "Build the package."}, function() {
     preset: "es2015",
     files: [
       {src: "index.js", dst: "build/es5/"},
-      {src: "lib/", dst: "build/es5/lib/"}
+      {src: "lib/", dst: "build/es5/lib"}
     ]
   });
 
