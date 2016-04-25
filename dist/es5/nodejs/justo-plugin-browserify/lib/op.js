@@ -5,7 +5,7 @@
 
 
 
-op;var _browserify = require("browserify");var _browserify2 = _interopRequireDefault(_browserify);var _justoFs = require("justo-fs");function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function op(params, done) {
+op;var _browserify = require("browserify");var _browserify2 = _interopRequireDefault(_browserify);var _justoFs = require("justo-fs");function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function op(params, done) {
   var b;
 
 
@@ -35,10 +35,11 @@ op;var _browserify = require("browserify");var _browserify2 = _interopRequireDef
         if (typeof val == "boolean") {
           if (val) transform.push(name);} else 
         {
-          transform.push(_defineProperty({}, name, val));}}}}
+          transform.push([name, val]);}}
 
 
 
+      params.transform = transform;}}
 
 
 
@@ -47,7 +48,6 @@ op;var _browserify = require("browserify");var _browserify2 = _interopRequireDef
     basedir: params.base, 
     paths: params.path, 
     entries: params.src, 
-    transform: params.tranform, 
     plugin: params.plugins, 
     extensions: params.extensions, 
     debug: params.debug, 
@@ -55,6 +55,13 @@ op;var _browserify = require("browserify");var _browserify2 = _interopRequireDef
     builtins: params.builtins, 
     insertGlobals: params.hasOwnProperty("globals") ? params.globals == "insert" : false, 
     detectGlobals: params.hasOwnProperty("globals") ? params.globals === true : false });
+
+
+  if (params.transform) {var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
+      for (var _iterator = params.transform[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var item = _step.value;
+        if (item instanceof Array) b.transform(item[0], item[1]);else 
+        b.transform(item);}} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}}
+
 
 
 

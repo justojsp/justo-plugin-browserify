@@ -61,11 +61,17 @@ suite("#browserify()", function() {
     });
   });
 
-  test("browserify(config) - base", function(done) {
+  test("browserify(config) - React", function(done) {
     browserify([{
-      src: "app.js",
+      src: "app.jsx",
       dst: BUNDLE,
-      base: path.join(DATA, "app/")
+      base: path.join(DATA, "app/"),
+      extensions: [".js", ".json", ".jsx"],
+      transform: {
+        babelify: {
+          presets: ["es2015", "react"]
+        }
+      }
     }], function(err) {
       if (err) {
         done(err);
