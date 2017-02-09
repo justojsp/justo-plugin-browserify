@@ -3,18 +3,34 @@ const catalog = require("justo").catalog;
 const babel = require("justo-plugin-babel");
 const clean = require("justo-plugin-fs").clean;
 const copy = require("justo-plugin-fs").copy;
-const jshint = require("justo-plugin-jshint");
+const jslint = require("justo-plugin-eslint");
+const jsonlint = require("justo-plugin-jsonlint");
 const publish = require("justo-plugin-npm").publish;
 
-//works
-catalog.workflow({name: "build", desc: "Build the package."}, function() {
-  clean("Clean build directory", {
-    dirs: ["build/es5"]
+//catalog
+const lint = catalog.workflow({name: "lint", desc: "Parse code."}, function() {
+  jsonlint("JSON: .json files", {
+    output: true,
+    src: ["package.json"]
   });
 
-  jshint("Best practices and grammar", {
+  jslint("JavaScript: Best practices and grammar", {
     output: true,
-    src: ["index.js", "lib/"]
+    src: [
+      "index.js",
+      "Justo.js",
+      "lib/",
+      "test/unit/index.js",
+      "test/unit/lib/"
+    ]
+  });
+});
+
+catalog.workflow({name: "build", desc: "Build the package."}, function() {
+  lint("Best practices and grammar");
+
+  clean("Clean build directory", {
+    dirs: ["build/es5"]
   });
 
   babel("Transpile", {
@@ -53,11 +69,11 @@ catalog.macro({name: "test", desc: "Unit test."}, {
   src: ["test/unit/lib", "test/unit/index.js"]
 });
 
-catalog.workflow({name: "publish", desc: "NPM publish"}, function() {
+catalog.workflow({name: "publish", desc: "NPM publish."}, function() {
   publish("Publish", {
     who: "justojs",
     src: "dist/es5/nodejs/justo-plugin-browserify/"
   });
 });
 
-catalog.macro("default", ["build", "test"]);
+catalog.macro({name: "default", desc: "Build and test."}, ["build", "test"]);

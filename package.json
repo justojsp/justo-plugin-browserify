@@ -1,6 +1,6 @@
 {
   "name": "justo-plugin-browserify",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Plugin for running Browserify.",
   "homepage": "http://www.justojs.org",
   "author": {
@@ -46,8 +46,9 @@
     "justo-assert": "*",
     "justo-assert-fs": "*",
     "justo-plugin-babel": "*",
+    "justo-plugin-eslint": "*",
     "justo-plugin-fs": "*",
-    "justo-plugin-jshint": "*",
+    "justo-plugin-jsonlint": "*",
     "justo-plugin-npm": "*",
     "react": "*",
     "react-dom": "*"

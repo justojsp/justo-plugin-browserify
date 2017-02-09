@@ -1,3 +1,4 @@
+[![NPM version](http://img.shields.io/npm/v/justo-plugin-browserify.svg)](https://www.npmjs.org/package/justo-plugin-browserify)
 [![Build Status](https://travis-ci.org/justojsp/justo-plugin-browserify.svg)](https://travis-ci.org/justojsp/justo-plugin-browserify)
 [![Dependency Status](https://david-dm.org/justojsp/justo-plugin-browserify.svg)](https://david-dm.org/justojsp/justo-plugin-browserify)
 [![devDependency Status](https://david-dm.org/justojsp/justo-plugin-browserify/dev-status.svg)](https://david-dm.org/justojsp/justo-plugin-browserify#info=devDependencies)
